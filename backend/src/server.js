@@ -11,10 +11,24 @@ const app = express();
 const PORT = process.env.PORT || 5001;
 
 //Middleware
-app.use(cors({
-    origin: "http://localhost:5173"
-}));
+
+if(process.env.NODE_ENV === "development"){
+
+    app.use(cors({
+        origin: process.env.CLIENT_URL
+    }));
+}else{
+    app.use(cors({
+        origin: process.env.CLIENT_URL
+    }));
+}
+
 app.use(express.json());
+
+//Test Route
+app.get("/", (req,res) =>{
+    res.send("Backend running");
+});
 
 //Routes
 app.use("/api/employees",employeeRoutes);
