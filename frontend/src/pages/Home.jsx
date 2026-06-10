@@ -28,7 +28,7 @@ const Home = () => {
             </h1>
             
             <p className="text-xl md:text-2xl text-slate-600 max-w-3xl mx-auto mb-8 leading-relaxed">
-              Streamline your workforce management with our modern, intuitive platform. Add, view, edit, and organize employees effortlessly.
+              Streamline your workforce management with our modern, user-friendly platform. Add, view, edit, and organize employees effortlessly.
             </p>
 
             {/* CTA Buttons */}

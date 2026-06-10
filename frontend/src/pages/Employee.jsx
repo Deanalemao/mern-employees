@@ -54,7 +54,7 @@ const Employee = () => {
         </div>
 
         {/* Filter Section */}
-        <div className="card-premium-lg p-6 md:p-8 mb-12 sticky top-24 z-40 animate-slide-down">
+        <div className="card-premium-lg p-6 md:p-8 mb-12 animate-slide-down">
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
             <div className="flex-1">
               <label className="block text-sm font-semibold text-slate-700 mb-3">Filter by Department</label>

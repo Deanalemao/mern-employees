@@ -25,34 +25,53 @@ const InsertEmployee = () => {
     });
   };
 
+  const isValidName = (name) => {
+    const trimmed = String(name).trim();
+    return trimmed.length >= 3 && /^[A-Za-z ]+$/.test(trimmed);
+  };
+
+  const isValidPhone = (phone) => {
+    const digits = String(phone).replace(/\D/g, '');
+    return digits.length === 10;
+  };
+
+  const isValidEmail = (email) => {
+    const trimmed = String(email).trim().toLowerCase();
+    return /^[a-z0-9._%+-]+@gmail\.com$/.test(trimmed);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     // Validation
-    if (!formData.emp_name.trim()) {
-      toast.error("Please enter employee name");
+    if (!isValidName(formData.emp_name)) {
+      toast.error("Name must be at least 3 letters and contain only letters and spaces.");
       return;
     }
-    if (!formData.email.trim()) {
-      toast.error("Please enter email address");
+    if (!isValidEmail(formData.email)) {
+      toast.error("Please enter a valid Gmail address ending with @gmail.com.");
       return;
     }
-    if (!formData.contact.trim()) {
-      toast.error("Please enter contact number");
+    if (!isValidPhone(formData.contact)) {
+      toast.error("Phone number must be exactly 10 digits.");
       return;
     }
     if (!formData.department.trim()) {
       toast.error("Please select a department");
       return;
     }
-    if (!formData.salary.trim()) {
+    if (!String(formData.salary).trim()) {
       toast.error("Please enter salary");
       return;
     }
 
     setLoading(true);
     try {
-      const response = await api.post("/employees", formData);
+        const response = await api.post("/employees", {
+          ...formData,
+          contact: Number(formData.contact),
+          salary: Number(formData.salary),
+        });
       console.log(response.data);
       toast.success("Employee added successfully! 🎉");
       navigate("/employees");
