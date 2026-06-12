@@ -5,58 +5,59 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <nav className="sticky top-0 z-50 bg-white border-b border-slate-200 shadow-[0_2px_8px_rgba(0,0,0,0.08)] backdrop-blur-xl bg-white/95">
+    <nav className="sticky top-0 z-50 border-b border-white/10 bg-slate-950/95 shadow-2xl shadow-slate-950/20 backdrop-blur-xl">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-20">
+        <div className="flex items-center justify-between h-20 gap-6">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-3 hover:opacity-80 transition-all duration-300 ease-out">
-            <div className="relative">
-              <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-cyan-500 rounded-xl blur-md opacity-75"></div>
-              <div className="relative bg-white rounded-xl p-2 shadow-soft">
-                <span className="text-2xl font-display font-bold text-gradient">EH</span>
-              </div>
+          <Link to="/" className="flex items-center gap-3 transition hover:opacity-90">
+            <div className="relative flex h-12 w-12 items-center justify-center rounded-3xl bg-gradient-to-br from-blue-600 to-cyan-500 text-white shadow-xl shadow-cyan-500/20">
+              <span className="text-xl font-black">EH</span>
             </div>
             <div className="hidden sm:flex flex-col">
-              <span className="text-xl font-display font-bold text-slate-900">Employee Hub</span>
-              <span className="text-xs text-slate-500 font-medium">Management System</span>
+              <span className="text-lg font-semibold text-white">Employee Hub</span>
+              <span className="text-xs text-slate-400 uppercase tracking-[0.24em]">Management System</span>
             </div>
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center gap-1">
-            <Link to="/" className="px-4 py-2 rounded-lg text-slate-700 font-semibold hover:bg-slate-100 transition-all duration-300 ease-out flex items-center gap-2">
-              <span className="text-lg">🏠</span> Home
+          <div className="hidden lg:flex items-center gap-2">
+            <Link to="/" className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-slate-100 transition hover:bg-white/10">
+              <svg className="h-4 w-4 text-cyan-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9.5L12 3l9 6.5v10a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1v-10z" /></svg>
+              Home
             </Link>
-            <Link to="/employees" className="px-4 py-2 rounded-lg text-slate-700 font-semibold hover:bg-slate-100 transition-all duration-300 ease-out flex items-center gap-2">
-              <span className="text-lg">👥</span> Employees
+            <Link to="/employees" className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-slate-100 transition hover:bg-white/10">
+              <svg className="h-4 w-4 text-cyan-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 20h5v-2a4 4 0 0 0-4-4h-1"/><path d="M9 20H4v-2a4 4 0 0 1 4-4h1"/><circle cx="12" cy="7" r="4"/></svg>
+              Employees
             </Link>
-            <Link to="/addemployee" className="px-4 py-2 bg-gradient-to-r from-blue-600 to-cyan-500 text-white rounded-lg font-semibold hover:shadow-[0_0_24px_rgba(59,130,246,0.15)] transition-all duration-300 ease-out flex items-center gap-2 ml-2">
-              <span className="text-lg">➕</span> Add Employee
+            <Link to="/addemployee" className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-blue-600 to-cyan-500 px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-cyan-500/20 transition hover:-translate-y-0.5 hover:shadow-xl">
+              <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 5v14M5 12h14" /></svg>
+              Add Employee
             </Link>
           </div>
 
           {/* Mobile Menu Button */}
-          <button 
-            className="lg:hidden p-2 rounded-lg hover:bg-slate-100 transition-all duration-300 ease-out"
+          <button
+            className="lg:hidden rounded-full border border-white/10 bg-white/10 p-2 text-slate-100 transition hover:bg-white/15"
             onClick={() => setIsOpen(!isOpen)}
+            aria-label="Toggle navigation menu"
           >
-            <svg className="w-6 h-6 text-slate-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={isOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"} />
+            <svg className="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              {isOpen ? <path d="M6 18L18 6M6 6l12 12" /> : <path d="M4 6h16M4 12h16M4 18h16" />}
             </svg>
           </button>
         </div>
 
         {/* Mobile Menu */}
         {isOpen && (
-          <div className="lg:hidden pb-4 space-y-2 animate-slide-down">
-            <Link to="/" onClick={() => setIsOpen(false)} className="block px-4 py-3 rounded-lg text-slate-700 font-semibold hover:bg-slate-100 smooth-transition">
-              🏠 Home
+          <div className="lg:hidden pb-4 pt-2 space-y-2">
+            <Link to="/" onClick={() => setIsOpen(false)} className="block rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-slate-100 font-semibold transition hover:bg-white/10">
+              Home
             </Link>
-            <Link to="/employees" onClick={() => setIsOpen(false)} className="block px-4 py-3 rounded-lg text-slate-700 font-semibold hover:bg-slate-100 smooth-transition">
-              👥 Employees
+            <Link to="/employees" onClick={() => setIsOpen(false)} className="block rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-slate-100 font-semibold transition hover:bg-white/10">
+              Employees
             </Link>
-            <Link to="/addemployee" onClick={() => setIsOpen(false)} className="block px-4 py-3 bg-gradient-to-r from-blue-600 to-cyan-500 text-white rounded-lg font-semibold hover:shadow-glow smooth-transition">
-              ➕ Add Employee
+            <Link to="/addemployee" onClick={() => setIsOpen(false)} className="block rounded-2xl bg-gradient-to-r from-blue-600 to-cyan-500 px-4 py-3 text-white font-semibold transition hover:shadow-xl">
+              Add Employee
             </Link>
           </div>
         )}

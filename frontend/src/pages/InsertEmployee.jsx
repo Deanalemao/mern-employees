@@ -1,23 +1,24 @@
-import React from 'react'
-import { useState } from 'react'
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router';
 import api from "../api/axios.js";
 import { toast } from 'react-toastify';
+import DatePicker from '../components/DatePicker.jsx';
+import { departments, formFieldClass, isValidAge, isValidEmail, isValidName, isValidPhone, minimumAge } from '../utils/formHelpers.js';
 
 const InsertEmployee = () => {
-
   const navigate = useNavigate();
+  const today = new Date().toISOString().slice(0, 10);
   const [formData, setFormData] = useState({
     emp_name: "",
     email: "",
+    age: "",
     contact: "",
     department: "",
+    doj: "",
     salary: "",
   });
-
   const [loading, setLoading] = useState(false);
 
-  //handle formdata
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -25,25 +26,8 @@ const InsertEmployee = () => {
     });
   };
 
-  const isValidName = (name) => {
-    const trimmed = String(name).trim();
-    return trimmed.length >= 3 && /^[A-Za-z ]+$/.test(trimmed);
-  };
-
-  const isValidPhone = (phone) => {
-    const digits = String(phone).replace(/\D/g, '');
-    return digits.length === 10;
-  };
-
-  const isValidEmail = (email) => {
-    const trimmed = String(email).trim().toLowerCase();
-    return /^[a-z0-9._%+-]+@gmail\.com$/.test(trimmed);
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Validation
     if (!isValidName(formData.emp_name)) {
       toast.error("Name must be at least 3 letters and contain only letters and spaces.");
       return;
@@ -60,6 +44,14 @@ const InsertEmployee = () => {
       toast.error("Please select a department");
       return;
     }
+    if (!isValidAge(formData.age)) {
+      toast.error(`Age must be ${minimumAge} or older`);
+      return;
+    }
+    if (!formData.doj.trim()) {
+      toast.error("Please enter the date of joining");
+      return;
+    }
     if (!String(formData.salary).trim()) {
       toast.error("Please enter salary");
       return;
@@ -67,12 +59,12 @@ const InsertEmployee = () => {
 
     setLoading(true);
     try {
-        const response = await api.post("/employees", {
-          ...formData,
-          contact: Number(formData.contact),
-          salary: Number(formData.salary),
-        });
-      console.log(response.data);
+      await api.post("/employees", {
+        ...formData,
+        age: Number(formData.age),
+        contact: Number(formData.contact),
+        salary: Number(formData.salary),
+      });
       toast.success("Employee added successfully! 🎉");
       navigate("/employees");
     } catch (error) {
@@ -81,155 +73,141 @@ const InsertEmployee = () => {
     } finally {
       setLoading(false);
     }
-  }
+  };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100 py-16 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-2xl mx-auto">
-        {/* Header */}
-        <div className="mb-12 text-center">
-          <div className="inline-block mb-6 relative">
-            <div className="absolute inset-0 bg-green-500/10 rounded-full blur-lg"></div>
-            <div className="relative bg-white rounded-full p-4">
-              <span className="text-5xl">➕</span>
+    <div className="min-h-screen bg-slate-950 text-slate-100">
+      <section className="relative overflow-hidden py-24">
+        <div className="absolute inset-0 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 opacity-95" />
+        <div className="absolute left-0 top-24 h-64 w-64 rounded-full bg-cyan-500/20 blur-3xl" />
+        <div className="absolute right-0 top-12 h-72 w-72 rounded-full bg-blue-500/20 blur-3xl" />
+        <div className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="rounded-[2rem] border border-white/10 bg-slate-900/80 p-10 shadow-2xl shadow-slate-950/30 backdrop-blur-xl text-center">
+            <div className="inline-flex items-center justify-center rounded-full bg-slate-950/90 p-5 shadow-xl shadow-cyan-500/10 text-6xl text-cyan-300 mb-6">
+              ➕
             </div>
+            <h1 className="text-4xl font-semibold text-white">Add New Employee</h1>
+            <p className="mt-4 text-lg leading-8 text-slate-400">
+              Fill in the details below to register a new team member.
+            </p>
           </div>
-          <h1 className="section-title">Add New Employee</h1>
-          <p className="text-xl text-slate-600 max-w-2xl mx-auto">Fill in the details below to register a new team member</p>
         </div>
+      </section>
 
-        {/* Form Card */}
-        <div className="card-premium-lg p-8 md:p-12 animate-scale-in">
-          <form onSubmit={handleSubmit} className="space-y-8">
-
-            {/* Employee Name */}
-            <div className="form-control">
-              <label className="label pb-2">
-                <span className="label-text font-semibold text-slate-900 text-lg">👤 Full Name</span>
-                <span className="label-text-alt text-red-500 font-bold">*</span>
-              </label>
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pb-16 pt-12">
+        <div className="rounded-[2rem] border border-white/10 bg-slate-900/80 p-10 shadow-2xl shadow-slate-950/30 backdrop-blur-xl">
+          <form onSubmit={handleSubmit} className="grid gap-6">
+            <div>
+              <label className="block text-sm font-semibold text-slate-200 mb-2">Full Name</label>
               <input
                 type="text"
                 name="emp_name"
                 placeholder="John Doe"
                 value={formData.emp_name}
                 onChange={handleChange}
-                className="input-premium bg-slate-50 border-2 border-slate-200 rounded-xl px-4 py-3 text-slate-900 placeholder-slate-400 text-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-500/10"
+                className={formFieldClass}
               />
             </div>
-
-            {/* Email */}
-            <div className="form-control">
-              <label className="label pb-2">
-                <span className="label-text font-semibold text-slate-900 text-lg">✉️ Email Address</span>
-                <span className="label-text-alt text-red-500 font-bold">*</span>
-              </label>
+            <div>
+              <label className="block text-sm font-semibold text-slate-200 mb-2">Email Address</label>
               <input
                 type="email"
                 name="email"
-                placeholder="john@company.com"
+                placeholder="john@gmail.com"
                 value={formData.email}
                 onChange={handleChange}
-                className="input-premium bg-slate-50 border-2 border-slate-200 rounded-xl px-4 py-3 text-slate-900 placeholder-slate-400 text-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-500/10"
+                className={formFieldClass}
               />
             </div>
-
-            {/* Contact */}
-            <div className="form-control">
-              <label className="label pb-2">
-                <span className="label-text font-semibold text-slate-900 text-lg">📞 Contact Number</span>
-                <span className="label-text-alt text-red-500 font-bold">*</span>
-              </label>
+            <div>
+              <label className="block text-sm font-semibold text-slate-200 mb-2">Contact Number</label>
               <input
-                type="number"
+                type="tel"
                 name="contact"
                 placeholder="9876543210"
                 value={formData.contact}
                 onChange={handleChange}
-                className="input-premium bg-slate-50 border-2 border-slate-200 rounded-xl px-4 py-3 text-slate-900 placeholder-slate-400 text-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-500/10"
+                className={formFieldClass}
               />
             </div>
-
-            {/* Department */}
-            <div className="form-control">
-              <label className="label pb-2">
-                <span className="label-text font-semibold text-slate-900 text-lg">🏢 Department</span>
-                <span className="label-text-alt text-red-500 font-bold">*</span>
-              </label>
+            <div>
+              <label className="block text-sm font-semibold text-slate-200 mb-2">Age</label>
+              <input
+                type="number"
+                name="age"
+                min="0"
+                placeholder="29"
+                value={formData.age}
+                onChange={handleChange}
+                className={formFieldClass}
+              />
+            </div>
+            <div className="md:col-span-2">
+              <DatePicker
+                label="Date of Joining"
+                name="doj"
+                value={formData.doj}
+                onChange={(name, value) => setFormData({ ...formData, [name]: value })}
+                min="1900-01-01"
+                max={today}
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-semibold text-slate-200 mb-2">Department</label>
               <select
                 name="department"
                 value={formData.department}
                 onChange={handleChange}
-                className="input-premium bg-slate-50 border-2 border-slate-200 rounded-xl px-4 py-3 text-slate-900 text-lg cursor-pointer focus:border-blue-500 focus:ring-2 focus:ring-blue-500/10"
+                className={formFieldClass}
               >
-                <option value="">Select a Department</option>
-                <option value="IT">🖥️ IT</option>
-                <option value="HR">👔 HR</option>
-                <option value="Finance">💰 Finance</option>
-                <option value="Civil">🏗️ Civil</option>
+                <option value="" className="bg-slate-950 text-slate-100">Select a Department</option>
+                {departments.map((dept) => (
+                  <option key={dept} value={dept} className="bg-slate-950 text-slate-100">
+                    {dept}
+                  </option>
+                ))}
               </select>
             </div>
-
-            {/* Salary */}
-            <div className="form-control">
-              <label className="label pb-2">
-                <span className="label-text font-semibold text-slate-900 text-lg">💰 Monthly Salary (₹)</span>
-                <span className="label-text-alt text-red-500 font-bold">*</span>
-              </label>
+            <div>
+              <label className="block text-sm font-semibold text-slate-200 mb-2">Monthly Salary (₹)</label>
               <input
                 type="number"
                 name="salary"
                 placeholder="50000"
                 value={formData.salary}
                 onChange={handleChange}
-                className="input-premium bg-slate-50 border-2 border-slate-200 rounded-xl px-4 py-3 text-slate-900 placeholder-slate-400 text-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-500/10"
+                className={formFieldClass}
               />
             </div>
 
-            {/* Divider */}
-            <div className="h-px bg-gradient-to-r from-slate-200 to-transparent my-6"></div>
-
-            {/* Action Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4">
+            <div className="md:col-span-2 grid gap-4 sm:grid-cols-2">
               <button
                 type="submit"
                 disabled={loading}
-                className="flex-1 btn btn-premium px-6 py-4 bg-gradient-to-r from-green-600 to-emerald-500 text-white text-lg font-semibold hover:shadow-glow disabled:opacity-50 disabled:cursor-not-allowed"
+                className="rounded-3xl bg-cyan-400 px-6 py-4 text-base font-semibold text-slate-950 shadow-xl shadow-cyan-500/30 transition hover:bg-cyan-300 disabled:cursor-not-allowed disabled:opacity-60"
               >
-                {loading ? (
-                  <>
-                    <span className="loading loading-spinner loading-sm"></span>
-                    Processing...
-                  </>
-                ) : (
-                  <>
-                    <span className="text-2xl">➕</span> Add Employee
-                  </>
-                )}
+                {loading ? 'Processing...' : 'Add Employee'}
               </button>
               <button
                 type="button"
-                onClick={() => navigate("/employees")}
-                className="flex-1 btn btn-premium px-6 py-4 border-2 border-slate-300 text-slate-900 text-lg font-semibold hover:bg-slate-100"
+                onClick={() => navigate('/employees')}
+                className="rounded-3xl border border-white/10 bg-white/5 px-6 py-4 text-base font-semibold text-slate-100 transition hover:bg-white/10"
               >
-                ← Cancel
+                Cancel
               </button>
             </div>
 
-            {/* Info Alert */}
-            <div className="bg-blue-50 border-l-4 border-blue-600 rounded-lg p-6 flex gap-4">
-              <span className="text-2xl">ℹ️</span>
-              <div>
-                <h4 className="font-semibold text-blue-900 mb-1">Fill in all fields</h4>
-                <p className="text-sm text-blue-700">All fields marked with <span className="font-bold text-red-500">*</span> are required to create a new employee record.</p>
-              </div>
+            <div className="md:col-span-2 rounded-3xl border border-cyan-500/10 bg-cyan-500/10 p-6 text-slate-100">
+              <h4 className="font-semibold text-white">Need help?</h4>
+              <p className="mt-2 text-sm text-slate-300">
+                Fill every field and use a valid Gmail address to create a new employee record.
+              </p>
             </div>
-
           </form>
         </div>
       </div>
     </div>
-  )
+  );
 };
 
-export default InsertEmployee
+export default InsertEmployee;

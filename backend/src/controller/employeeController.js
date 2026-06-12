@@ -32,8 +32,8 @@ export const getEmployeeById = async (req,res) => {
 export const insertEmployee = async (req,res) => {
 
     try {
-        const {emp_name,email,contact,department,salary} = req.body;
-        const employee = new Employee({emp_name,email,contact,department,salary});
+        const {emp_name,email,age,contact,department,doj,salary} = req.body;
+        const employee = new Employee({emp_name,email,age,contact,department,doj,salary});
         const savedEmp = await employee.save();
         res.status(201).json(savedEmp);
     } catch (error) {
@@ -46,8 +46,8 @@ export const insertEmployee = async (req,res) => {
 export const updateEmployee = async (req,res) => {
 
     try {
-        const {emp_name,email,contact,department,salary} = req.body;
-        const updateEmployee = await Employee.findByIdAndUpdate(req.params.id,{emp_name,email,contact,department,salary},{new:true});
+        const {emp_name,email,age,contact,department,doj,salary} = req.body;
+        const updateEmployee = await Employee.findByIdAndUpdate(req.params.id,{emp_name,email,age,contact,department,doj,salary},{new:true});
         if(!updateEmployee) return res.status(404).json({message:"Employee not found"});
         res.status(200).json(updateEmployee);
     } catch (error) {

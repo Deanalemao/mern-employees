@@ -11,6 +11,10 @@ const employeeSchema = new mongoose.Schema({
         required:true,
         unique:true,
     },
+    age:{
+        type:Number,
+        required:true,
+    },
     contact:{
         type:Number,
         required:true,
@@ -18,6 +22,10 @@ const employeeSchema = new mongoose.Schema({
     },
     department:{
         type:String,
+        required:true,
+    },
+    doj:{
+        type:Date,
         required:true,
     },
     salary:{
