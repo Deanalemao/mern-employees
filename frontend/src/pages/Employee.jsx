@@ -8,6 +8,7 @@ const Employee = () => {
   const [department, setDepartment] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState(false);
+  const [expandedCard, setExpandedCard] = useState(null);
 
   useEffect(() => {
     fetchEmployees();
@@ -190,19 +191,48 @@ const Employee = () => {
                       </div>
                       <div className="text-4xl">👤</div>
                     </div>
-                    <div className="space-y-4 mb-8">
+                    <div className="space-y-4 mb-6">
                       <div className="rounded-3xl bg-slate-950/90 p-4">
                         <p className="text-xs uppercase tracking-[0.24em] text-slate-500">Email</p>
                         <p className="mt-2 text-sm text-slate-200 truncate">{emp.email}</p>
                       </div>
+
                       <div className="rounded-3xl bg-slate-950/90 p-4">
                         <p className="text-xs uppercase tracking-[0.24em] text-slate-500">Contact</p>
                         <p className="mt-2 text-sm text-slate-200">{emp.contact}</p>
                       </div>
-                      <div className="rounded-3xl bg-slate-950/90 p-4 border border-slate-800">
-                        <p className="text-xs uppercase tracking-[0.24em] text-slate-500">Monthly Salary</p>
-                        <p className="mt-2 text-lg font-semibold text-cyan-200">₹{emp.salary}</p>
-                      </div>
+
+                      <button
+                        onClick={() =>
+                          setExpandedCard(
+                            expandedCard === emp._id ? null : emp._id
+                          )
+                        }
+                        className="w-full rounded-3xl bg-cyan-500/15 px-4 py-3 text-sm font-semibold text-cyan-200 transition hover:bg-cyan-500/25"
+                      >
+                        {expandedCard === emp._id ? 'Show Less ▲' : 'View More ▼'}
+                      </button>
+
+                      {expandedCard === emp._id && (
+                        <div className="space-y-4 animate-in slide-in-from-top duration-300">
+                          <div className="rounded-3xl bg-slate-950/90 p-4">
+                            <p className="text-xs uppercase tracking-[0.24em] text-slate-500">Age</p>
+                            <p className="mt-2 text-sm text-slate-200">{emp.age} Years</p>
+                          </div>
+
+                          <div className="rounded-3xl bg-slate-950/90 p-4">
+                            <p className="text-xs uppercase tracking-[0.24em] text-slate-500">Date of Joining</p>
+                            <p className="mt-2 text-sm text-slate-200">
+                              {new Date(emp.doj).toLocaleDateString('en-IN')}
+                            </p>
+                          </div>
+
+                          <div className="rounded-3xl bg-slate-950/90 p-4 border border-slate-800">
+                            <p className="text-xs uppercase tracking-[0.24em] text-slate-500">Monthly Salary</p>
+                            <p className="mt-2 text-lg font-semibold text-cyan-200">₹{emp.salary}</p>
+                          </div>
+                        </div>
+                      )}
                     </div>
                     <div className="grid gap-3 sm:grid-cols-2">
                       <Link to={`/edit/${emp._id}`}>
