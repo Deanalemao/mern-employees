@@ -108,7 +108,17 @@ const InsertEmployee = () => {
                 className={formFieldClass}
               />
             </div>
-
+            <div>
+              <label className="block text-sm font-semibold text-slate-200 mb-2">Email Address</label>
+              <input
+                type="email"
+                name="email"
+                placeholder="john@gmail.com"
+                value={formData.email}
+                onChange={handleChange}
+                className={formFieldClass}
+              />
+            </div>
             <div>
               <label className="block text-sm font-semibold text-slate-200 mb-2">Contact Number</label>
               <input
