@@ -1,4 +1,5 @@
-FROM node:20.19.1
+#stage 1
+FROM node:20 AS builder
 
 WORKDIR /app
 
@@ -8,6 +9,16 @@ RUN npm install
 
 COPY . .
 
-EXPOSE 5173
+RUN npm run build
 
-CMD ["npm","run","dev","--","--host"]
+#stage 2
+
+FROM nginx:alpine
+
+COPY --from=builder /app/dist /usr/share/nginx/html
+
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+EXPOSE 80
+
+CMD ["nginx","-g","daemon off;"]
