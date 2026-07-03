@@ -1,6 +1,6 @@
 services:
   frontend:
-    build: ./frontend
+    image: deanalemao/mern-employee-frontend:latest
     ports:
       - "80:80"
     depends_on:
@@ -9,7 +9,7 @@ services:
       - mern-network
 
   backend:
-    build: ./backend
+    image: deanalemao/mern-employee-backend:latest
     expose:
       - "5001"
     depends_on:
