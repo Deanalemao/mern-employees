@@ -52,7 +52,51 @@ const Employee = () => {
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100">
-
+      <section className="relative overflow-hidden pb-24">
+        <div className="absolute inset-0 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 opacity-95" />
+        <div className="absolute left-[-3rem] top-16 h-72 w-72 rounded-full bg-cyan-500/20 blur-3xl" />
+        <div className="absolute right-[-4rem] top-24 h-80 w-80 rounded-full bg-blue-500/20 blur-3xl" />
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
+          <div className="grid gap-8 lg:grid-cols-[1.4fr_0.8fr]">
+            <div className="space-y-6">
+              <span className="inline-flex items-center gap-2 rounded-full border border-cyan-300/20 bg-cyan-500/10 px-4 py-2 text-sm text-cyan-200">
+                Employee Directory
+              </span>
+              <h1 className="text-5xl font-semibold tracking-tight text-white sm:text-6xl">
+                Find and manage employees instantly with powerful search
+              </h1>
+              <p className="max-w-2xl text-lg leading-8 text-slate-300">
+                Search by name, email, contact number, or department. Filter by department and instantly find the employee you're looking for.
+              </p>
+              <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
+                <Link to="/addemployee">
+                  <button className="rounded-full bg-cyan-400 px-8 py-4 text-base font-semibold text-slate-950 shadow-xl shadow-cyan-500/30 transition hover:bg-cyan-300">
+                    Add Employee
+                  </button>
+                </Link>
+                <div className="rounded-full border border-white/10 bg-slate-950/60 px-6 py-4 text-sm text-slate-200">
+                  Showing {employees.length} {employees.length === 1 ? 'employee' : 'employees'}
+                </div>
+              </div>
+            </div>
+            <div className="rounded-[2rem] border border-white/10 bg-slate-900/80 p-8 shadow-2xl shadow-slate-950/30 backdrop-blur-xl">
+              <div className="text-sm uppercase tracking-[0.32em] text-cyan-300">Quick insights</div>
+              <h2 className="mt-4 text-3xl font-semibold text-white">Search & Filter</h2>
+              <p className="mt-4 text-slate-400">Use the search bar to find employees by any detail, or filter by department.</p>
+              <div className="mt-8 grid gap-4">
+                <div className="rounded-3xl bg-slate-950/70 p-5 border border-white/10">
+                  <p className="text-sm uppercase tracking-[0.24em] text-slate-400">Total employees</p>
+                  <p className="mt-2 text-lg text-white">{employees.length}</p>
+                </div>
+                <div className="rounded-3xl bg-slate-950/70 p-5 border border-white/10">
+                  <p className="text-sm uppercase tracking-[0.24em] text-slate-400">Results found</p>
+                  <p className="mt-2 text-lg text-cyan-300">{filteredEmployees.length}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16 pt-12">
         <div className="rounded-[2rem] border border-white/10 bg-slate-900/80 p-8 shadow-2xl shadow-slate-950/30 backdrop-blur-xl mb-10">
@@ -81,12 +125,7 @@ const Employee = () => {
                   <option className="bg-slate-950 text-slate-100" value="IT">IT</option>
                   <option className="bg-slate-950 text-slate-100" value="HR">HR</option>
                   <option className="bg-slate-950 text-slate-100" value="Finance">Finance</option>
-                  <option className="bg-slate-950 text-slate-100" value="Civil">Civil</option>
-                  <option className="bg-slate-950 text-slate-100" value="Marketing">Marketing</option>
-                  <option className="bg-slate-950 text-slate-100" value="Sales">Sales</option>
-                  <option className="bg-slate-950 text-slate-100" value="Operations">Operations</option>
-                  <option className="bg-slate-950 text-slate-100" value="Support">Support</option>
-                  <option className="bg-slate-950 text-slate-100" value="Design">Design</option>
+                  
                 </select>
               </div>
               <div className="rounded-3xl border border-slate-700 bg-slate-950/70 px-6 py-3 text-center">
