@@ -125,7 +125,8 @@ const Employee = () => {
                   <option className="bg-slate-950 text-slate-100" value="IT">IT</option>
                   <option className="bg-slate-950 text-slate-100" value="HR">HR</option>
                   <option className="bg-slate-950 text-slate-100" value="Finance">Finance</option>
-                  
+                  <option className="bg-slate-950 text-slate-100" value="Civil">Civil</option>
+                
                 </select>
               </div>
               <div className="rounded-3xl border border-slate-700 bg-slate-950/70 px-6 py-3 text-center">
