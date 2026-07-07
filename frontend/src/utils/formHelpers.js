@@ -3,7 +3,11 @@ export const departments = [
   'HR',
   'Finance',
   'Civil',
-
+  'Marketing',
+  'Sales',
+  'Operations',
+  'Support',
+  'Design',
 ];
 
 export const minimumAge = 18;

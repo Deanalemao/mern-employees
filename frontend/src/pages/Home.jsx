@@ -28,9 +28,7 @@ const Home = () => {
                 Modern employee management
               </span>
 
-              <h1 className="text-5xl font-semibold tracking-tight text-white sm:text-6xl lg:text-7xl">
-                Empower your workforce with a beautiful, all-in-one employee hub
-              </h1>
+             
 
               <p className="max-w-2xl text-lg leading-8 text-slate-200">
                 Simplify hiring, onboarding, and people operations with one polished dashboard that keeps employee data organized, secure, and easy to act on.
