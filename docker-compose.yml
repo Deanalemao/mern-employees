@@ -20,7 +20,7 @@ services:
       - mern-network
 
   mongo:
-    image: mongo:latest
+    image: mongo:7.0
     expose: 
       - "27017"
     volumes:
