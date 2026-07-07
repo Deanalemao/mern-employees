@@ -220,7 +220,7 @@ During this project I gained practical experience with:
 **Dean Alemao**
 
 LinkedIn:
-(linkedin.com/in/deanalemao/)
+(https://www.linkedin.com/in/deanalemao/)
 
 GitHub:
 https://github.com/deanalemao
