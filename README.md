@@ -83,31 +83,6 @@ Build Frontend Image        Build Backend Image
                                   ▼
                              MongoDB
 
-
----
-
-# Project Structure
-
-```
-mern-employees/
-│
-├── frontend/
-│   ├── src/
-│   ├── Dockerfile
-│   └── nginx.conf
-│
-├── backend/
-│   ├── src/
-│   ├── Dockerfile
-│   └── .env
-│
-├── docker-compose.yml
-│
-└── .github/
-    └── workflows/
-        └── deploy.yml
-```
-
 ---
 
 #  Docker Setup
