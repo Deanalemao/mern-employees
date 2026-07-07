@@ -6,7 +6,23 @@ Every push to the `employee-prod` branch automatically builds Docker images, pus
 
 ---
 
-## 🌐 Live Demo
+#  Project Goal
+
+This project was built primarily to gain hands-on experience with DevOps tools and practices rather than to develop a feature-rich application.
+
+The MERN application serves as a practical example for learning:
+
+- Docker & Containerization
+- Docker Compose
+- GitHub Actions CI/CD
+- Docker Hub
+- AWS EC2 Deployment
+- Nginx Reverse Proxy
+- Environment Variable Management
+- Automated Deployments
+- Troubleshooting Production Issues
+
+## Live Demo
 
 **Frontend:** http://52.26.85.208
 
