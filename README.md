@@ -24,7 +24,7 @@ The MERN application serves as a practical example for learning:
 
 ## Live Demo
 
-**Frontend:** http://52.26.85.208
+**Frontend:** http://13.233.171.2
 
 ---
 
