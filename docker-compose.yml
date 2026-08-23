@@ -31,7 +31,7 @@ services:
     networks:
       - mern-network
     healthcheck:
-      test: ["CMD","mongosh","--eval","db.adminCommad('ping')"]
+      test: ["CMD","mongosh","--eval","db.adminCommand('ping')"]
     restart: unless-stopped
 
 
