@@ -5,22 +5,59 @@ on:
     branches:
       - employee-prod
 
+  pull_request:
+    branches:
+      - employee-prod
+
 jobs:
-  deploy:
+  test:
     runs-on: ubuntu-latest
 
     steps:
-      - name: checkout repository
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: login to Docker Hub
+      - name: Set up node.js
+        uses: actions/setup-node@v4
+
+        with:
+          node-version: 20
+
+      - name : Install frontend dependencies
+        run: npm ci
+        working-directory: ./frontend
+
+      - name: Install backend dependencies
+        run: npm ci
+        working-directory: ./backend
+
+      - name: Run test
+        run: npm test
+        working-directory: ./frontend
+
+      - name: Build frontend
+        run: npm run build
+        working-directory: ./frontend
+
+  push:
+    runs-on: ubuntu-latest
+    needs: test
+
+    if: github.event_name == 'push'
+
+    steps:
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Login to Docker Hub
         uses: docker/login-action@v3
 
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: set up Docker Buildx
+      - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
       - name: Build and Push Frontend
@@ -29,7 +66,7 @@ jobs:
         with:
           context: ./frontend
           push: true
-          tags: deanalemao/mern-frontend-employee:latest
+          tags: ${{ secrets.DOCKER_USERNAME }}/mern-frontend-employee:${{ github.sha }}
 
       - name: Build and Push Backend
         uses: docker/build-push-action@v6
@@ -37,7 +74,15 @@ jobs:
         with:
           context: ./backend
           push: true
-          tags: deanalemao/mern-backend-employee:latest
+          tags: ${{ secrets.DOCKER_USERNAME }}/mern-backend-employee:${{ github.sha }}
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: push
+
+    if: github.event_name == 'push'
+
+    steps:
 
       - name: ssh to EC2 
         uses: appleboy/ssh-action@v1.0.3
@@ -54,6 +99,8 @@ jobs:
             git fetch origin 
 
             git reset --hard origin/employee-prod
+
+            export IMAGE_TAG=${{ github.sha }}
 
             docker compose pull
 
