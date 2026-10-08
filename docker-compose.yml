@@ -9,6 +9,13 @@ services:
       - mern-network
     restart: unless-stopped
 
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+        
+
   backend:
     image: deanalemao/mern-backend-employee:${IMAGE_TAG}
     expose:
@@ -21,6 +28,12 @@ services:
     networks:
       - mern-network
     restart: unless-stopped
+
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
 
   mongo:
     image: mongo:7.0
@@ -37,6 +50,12 @@ services:
       retries: 5
 
     restart: unless-stopped
+
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
 
 
 networks:
